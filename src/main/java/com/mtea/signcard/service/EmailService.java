@@ -72,7 +72,7 @@ public class EmailService {
 	private void doRemind(String mail, String emailContent) {
 		Properties props = new Properties();
 		props.put("username", "liangqiye@gz.iscas.ac.cn");
-		props.put("password", "xiao7520");
+		props.put("password", "");
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.host", "smtp.nfschina.com");
 		props.put("mail.smtp.port", "25");
