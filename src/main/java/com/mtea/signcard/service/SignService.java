@@ -26,8 +26,6 @@ public class SignService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SignService.class);
 
-	private PageAccessService pageAccessService = new PageAccessService();
-
 	private EmailService emailService = new EmailService();
 
 	private ExecutorService executorService = Executors.newCachedThreadPool();
@@ -63,7 +61,9 @@ public class SignService {
 	 */
 	public boolean doSign(Signer signer){
 		boolean flag=true;
+		PageAccessService pageAccessService =null;
 		try {
+			pageAccessService = new PageAccessService();
 			String loginPageHtml = pageAccessService.getLoginPageHtml(SignConstants.URL_CONTEXT_PATH + SignConstants.FORM_LOGIN_URI);
 			String loginPageAction = pageAccessService.getLoginPageFormAction(loginPageHtml);
 			String realUrl = pageAccessService.getRealUrlAfterLogin(signer.getName(), signer.getPassword(), SignConstants.URL_CONTEXT_PATH + loginPageAction);
@@ -89,6 +89,8 @@ public class SignService {
 		} catch (RuntimeException e) {
 			flag=false;
 			logger.error("程序运行时异常!",e);
+		}finally{
+			pageAccessService.exit();
 		}
 		if(!flag){
 			logger.info("程序执行签到失败");
@@ -102,7 +104,6 @@ public class SignService {
 	 * macrotea / 2012-6-8 上午9:28:53
 	 */
 	public void signOver(){
-		pageAccessService.exit();
 		executorService.shutdown();
 	}
 	
