@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	name : 		考勤系统的登录用户名
+	password : 	考勤系统的登录密码
+	weeks : 	在星期几自动签到
+	emails : 	定义签到失败提醒邮件
+	enable : 	是否启用
+	master : 	是否为主导人,若无则默认为false(谁部署此程序,谁就是主导人)
+				只能存在有且仅有一个master为true的签到者
+ -->
+<signers>
+	
+	<!-- liangqiye -->
+	<signer>
+		<name>liangqiye</name>
+		<password>xxx</password>
+		<weeks>1,2,3,4,5</weeks>
+		<emails>
+			<email>
+				macrotea@qq.com
+			</email>
+			<email>
+				liangqiye@gz.iscas.ac.cn
+			</email>
+		</emails>
+		<enable>true</enable>
+		<master>true</master>
+	</signer>
+	
+	<!-- liangpeirong -->
+	<signer>
+		<name>liangpeirong</name>
+		<password>xxx</password>
+		<weeks>1,2,3,4,5</weeks>
+		<emails>
+			<email>
+				911217206@qq.com
+			</email>
+			<email>
+				liangpeirong@gz.iscas.ac.cn
+			</email>
+		</emails>
+		<enable>true</enable>
+		<master>false</master>
+	</signer>
+	
+	<!-- huangfang -->
+	<signer>
+		<name>huangfang</name>
+		<password>xxx</password>
+		<weeks>1,2,3,4,5</weeks>
+		<emails>
+			<email>
+				1007698407@qq.com
+			</email>
+			<email>
+				huangfang@gz.iscas.ac.cn
+			</email>
+		</emails>
+		<enable>true</enable>
+		<master>false</master>
+	</signer>
+</signers>
