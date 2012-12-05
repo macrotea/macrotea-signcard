@@ -29,7 +29,7 @@ public class SignConstants {
 	/**
 	 * 默认主导签到者的名字
 	 */
-	public static String DEF_MASTER_SIGNER_NAME = "liangqaiye";
+	public static String DEF_MASTER_SIGNER_NAME = "liangqiye";
 
 	/**
 	 * 签到页面链接文字
