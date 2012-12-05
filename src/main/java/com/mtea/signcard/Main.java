@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.mtea.signcard.global.ConfigHolder;
 import com.mtea.signcard.global.SignConstants;
+import com.mtea.signcard.service.RemindService;
 import com.mtea.signcard.service.SignService;
 
 /**
@@ -23,6 +24,7 @@ public class Main {
 		logger.info("{}({})已加载签到配置类: {}", argArray);
 		logger.info("已配置签到者信息列表: {}", ConfigHolder.getSignerListInfo());
 		new SignService().startSign();
+		new RemindService().keepRemind();
 	}
 	
 

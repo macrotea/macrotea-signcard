@@ -32,6 +32,7 @@ public class ConfigHolder {
 	static {
 		loadSignerFile();
         loadSignFile();
+        loadEmailFile();
 	}
 
 	/**
@@ -41,8 +42,8 @@ public class ConfigHolder {
 	 */
 	private static void loadSignFile() {
 		InputStream inStream = ConfigHolder.class.getResourceAsStream(SignConstants.SIGN_FILE);
-        Properties prop=new Properties();
-        try {
+		Properties prop = new Properties();
+		try {
 			prop.load(inStream);
 		} catch (IOException e) {
 			logger.error(String.format("系统加载签到配置文件: %s 出错!", SignConstants.SIGN_FILE), e);
@@ -55,9 +56,32 @@ public class ConfigHolder {
 		SignConstants.SIGN_ACTION_URI = prop.getProperty("sign.action.uri");
 		SignConstants.USERNAME_FIELD_NAME = prop.getProperty("form.login.fieldname.username");
 		SignConstants.PASSWORD_FIELD_NAME = prop.getProperty("form.login.fieldname.password");
-		SignConstants.MAIL_REMIND_CONTENT = prop.getProperty("mail.remind.content");
 		SignConstants.MAIL_REMIND_TITLE = prop.getProperty("mail.remind.title");
+		SignConstants.MAIL_REMIND_CONTENT = prop.getProperty("mail.remind.content");
+		SignConstants.MAIL_REMIND_TO_SMARTER_TITLE = prop.getProperty("mail.remindToSmarter.title");
+		SignConstants.MAIL_REMIND_TO_SMARTER_CONTENT = prop.getProperty("mail.remindToSmarter.content");
 		SignConstants.MASTER_SIGNER = getMasterSigner();
+	}
+
+	/**
+	 * 加载邮件配置文件
+	 * liangqiye / 2012-12-4 下午9:21:35
+	 */
+	private static void loadEmailFile() {
+		InputStream inStream = ConfigHolder.class.getResourceAsStream(SignConstants.MAIL_FILE);
+		Properties prop = new Properties();
+		try {
+			prop.load(inStream);
+		} catch (IOException e) {
+			logger.error(String.format("系统加载邮件配置文件: %s 出错!", SignConstants.MAIL_FILE), e);
+		}
+        
+        //设定全局常量
+        SignConstants.MAIL_USERNAME = prop.getProperty("username");
+		SignConstants.MAIL_PASSWORD = prop.getProperty("password");
+		SignConstants.MAIL_TRANSPORT_PROTOCOL = prop.getProperty("mail.transport.protocol");
+		SignConstants.MAIL_SMTP_HOST = prop.getProperty("mail.smtp.host");
+		SignConstants.MAIL_SMTP_PORT = prop.getProperty("mail.smtp.port");
 	}
 
 	/**
@@ -112,6 +136,7 @@ public class ConfigHolder {
 			String password = signerElement.elementTextTrim("password");
 			String weeksText = signerElement.elementTextTrim("weeks");
 			Element emailsElement = signerElement.element("emails");
+			String nightSign = signerElement.elementTextTrim("nightSign");
 			String enable = signerElement.elementTextTrim("enable");
 			String master = signerElement.elementTextTrim("master");
 			
@@ -125,6 +150,7 @@ public class ConfigHolder {
         	signer.setPassword(password);
         	signer.setWeekList(weekList);
         	signer.setEmailList(emailList);
+        	signer.setNightSign(Boolean.valueOf(nightSign));
         	signer.setEnable(Boolean.valueOf(enable));
         	signer.setMaster(Boolean.valueOf(master));
         	

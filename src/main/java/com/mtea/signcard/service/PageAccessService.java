@@ -36,8 +36,13 @@ public class PageAccessService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PageAccessService.class);
 	
-	private DefaultHttpClient httpclient = new DefaultHttpClient();
-	
+	private DefaultHttpClient httpclient = null;
+
+	public PageAccessService() {
+		super();
+		this.httpclient = new DefaultHttpClient();
+	}
+
 	/**
 	 * 获得登陆页HTML
 	 * macrotea / 2012-6-7 下午8:48:05

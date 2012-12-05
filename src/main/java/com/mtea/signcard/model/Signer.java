@@ -20,6 +20,8 @@ public class Signer {
 	
 	private List<String> emailList=new ArrayList<String>();
 	
+	private boolean nightSign = true;
+	
 	private boolean enable = true;
 	
 	private boolean master = false;
@@ -79,10 +81,19 @@ public class Signer {
 	public void setMaster(boolean master) {
 		this.master = master;
 	}
+	
+	public boolean isNightSign() {
+		return nightSign;
+	}
+
+	public void setNightSign(boolean nightSign) {
+		this.nightSign = nightSign;
+	}
 
 	@Override
 	public String toString() {
-		return "Signer [name=" + name + ", weekList=" + weekList + ", emailList=" + emailList + ", enable=" + enable + ", master=" + master + "]";
+		return "Signer [name=" + name + ", weekList=" + weekList + ", emailList=" + emailList + ", nightSign=" + nightSign
+				+ ", enable=" + enable + ", master=" + master + "]";
 	}
-
+	
 }

@@ -3,6 +3,7 @@ package com.mtea.signcard.service;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Calendar;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,16 +32,10 @@ public class SignService {
 	private ExecutorService executorService = Executors.newCachedThreadPool();
 	
 	/**
-	 * 定义分钟
-	 */
-	private static final long MINIUTE = 60 * 1000;
-
-	/**
 	 * 校验签到是否成功
 	 * macrotea / 2012-6-7 下午9:35:46
 	 */
 	private boolean validateSign(String responseContent) {
-		//后台设计不咋地，竟然返回1
 		return responseContent.equals("1") ? true : false;
 	}
 	
@@ -60,6 +55,7 @@ public class SignService {
 	 * macrotea / 2012-6-8 上午9:28:53
 	 */
 	public boolean doSign(Signer signer){
+		ranSleep();
 		boolean flag=true;
 		PageAccessService pageAccessService =null;
 		try {
@@ -94,11 +90,22 @@ public class SignService {
 		}
 		if(!flag){
 			logger.info("程序执行签到失败");
-			emailService.remindMe(signer);
+			emailService.sendMailWhenFail(signer);
 		}
 		return flag;
 	}
 	
+	/**
+	 * 随机随眠
+	 * liangqiye / 2012-12-5 上午9:09:53
+	 */
+	private void ranSleep() {
+		try {
+			Thread.sleep(new Double(new Random().nextDouble() * SignConstants.MINIUTE).longValue());
+		} catch (InterruptedException ignore) {
+		}
+	}
+
 	/**
 	 * 签到服务结束
 	 * macrotea / 2012-6-8 上午9:28:53
@@ -150,12 +157,12 @@ public class SignService {
 
 				//过滤星期
 				if(!signer.getWeekList().contains(week)){
-					doSleep(MINIUTE * 60);
+					doSleep(SignConstants.MINIUTE * 60);
 					continue;
 				}
 				
-				// 早上签到,8:30-8:40分之间打卡
-				if (hour == 8 && minute < 40 && minute > 30) {
+				// 早上签到,8:30后打卡
+				if (hour == 8 && minute > 30) {
 					if (!hasMormingSign) {
 						// 执行签到
 						doSign(signer);
@@ -176,21 +183,31 @@ public class SignService {
 					hasDuskSign = false;
 				}
 				
-				// 若电脑19:30分后还开机则再次打卡
-				if (hour == 19 && minute > 30) {
-					if (!hasNightSign && !stopNightSign) {
-						// 执行签到，若7:30分签到失败证明自己的电脑网络环境不是在软件所,故而停止签到
-						if (!doSign(signer)) {
-							stopNightSign = true;
-						};
-						hasNightSign = true;
+				//是否晚上打开
+				if(signer.isNightSign()){
+					
+					// 若电脑19:30分后还开机则再次打卡
+					if (hour == 19 && minute > 30) {
+						if (!hasNightSign && !stopNightSign) {
+							// 执行签到，若7:30分签到失败证明自己的电脑网络环境不是在软件所,故而停止签到
+							if (!doSign(signer)) {
+								stopNightSign = true;
+							};
+							hasNightSign = true;
+						}
+					} else {
+						hasNightSign = false;
+						stopNightSign = false;
 					}
-				} else {
-					hasNightSign = false;
-					stopNightSign = false;
+					
 				}
+				/*
+				else{
+					logger.info("{}已经放行对{}的晚上签到...", SignConstants.APP_NAME, this.signer.getName());
+				}
+				*/
 				
-				doSleep(MINIUTE);
+				doSleep(SignConstants.MINIUTE);
 			}
 		}
 

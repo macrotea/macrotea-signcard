@@ -1,1 +1,0 @@
-亲爱的 %s :\n\t您好! \n\t自动签到程序于 %s 签到失败! 请您及时登录智慧考勤系统手工修改考勤信息!\n\t智慧考勤系统网址: %s \n\tPower By Macrotea , 若有建议和疑问,请联系 liangqiye@gz.iscas.ac.cn ! 祝工作愉快 !  \n\t(这是来自 %s 的协助签到~)
