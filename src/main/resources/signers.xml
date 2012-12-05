@@ -15,7 +15,7 @@
 	<!-- liangqiye -->
 	<signer>
 		<name>liangqiye</name>
-		<password>liangqiye</password>
+		<password>xxx</password>
 		<weeks>1,2,3,4,5</weeks>
 		<emails>
 			<email>
@@ -33,7 +33,7 @@
 	<!-- liangpeirong -->
 	<signer>
 		<name>liangpeirong</name>
-		<password>34009375</password>
+		<password>xxx</password>
 		<weeks>1,2,3,4,5</weeks>
 		<emails>
 			<email>
@@ -51,7 +51,7 @@
 	<!-- huangfang -->
 	<signer>
 		<name>huangfang</name>
-		<password>123</password>
+		<password>xxx</password>
 		<weeks>1,2,3,4,5</weeks>
 		<emails>
 			<email>
