@@ -46,7 +46,9 @@ public class SignService {
 	public void startSign(){
 		logger.info("{}已启动签到服务...", SignConstants.APP_NAME);
 		for (Signer each : ConfigHolder.SIGNER_LIST) {
-			executorService.execute(new SignMonitor(each));
+			if(each.isEnable()){
+				executorService.execute(new SignMonitor(each));
+			}
 		}
 	}
 	
@@ -101,7 +103,8 @@ public class SignService {
 	 */
 	private void ranSleep() {
 		try {
-			Thread.sleep(new Double(new Random().nextDouble() * SignConstants.MINIUTE).longValue());
+			long value =new Double(new Random().nextDouble() * SignConstants.MINIUTE).longValue();
+			Thread.sleep(value);
 		} catch (InterruptedException ignore) {
 		}
 	}
